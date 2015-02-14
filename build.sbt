@@ -1,6 +1,6 @@
 name := "Conway's game of Scala"
 
-scalaVersion := "2.11.5"
+scalaVersion in Global := "2.11.5"
 
 lazy val root = project in file(".") aggregate(core, uiJS)
 
