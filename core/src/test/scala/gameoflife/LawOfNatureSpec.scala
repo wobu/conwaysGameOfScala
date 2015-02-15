@@ -7,7 +7,7 @@ import gameoflife.Universe._
 
 class LawOfNatureSpec extends FlatSpecLike with Matchers {
   "A living Cell" should "die on under population" in {
-    val seed = Array(LivingCell(0, 0))
+    val seed = Seq(LivingCell(0, 0))
 
     val result = LawsOfNature.valueAt(LivingCell(1, 1), new World((1, 1), 1, seed = Some(seed)))
 
@@ -19,7 +19,7 @@ class LawOfNatureSpec extends FlatSpecLike with Matchers {
   }
 
   "A living Cell" should "die on overcrowding" in {
-    val seed = Array(LivingCell(0, 0), LivingCell(1, 0), LivingCell(0, 1), LivingCell(2, 0))
+    val seed = Seq(LivingCell(0, 0), LivingCell(1, 0), LivingCell(0, 1), LivingCell(2, 0))
 
     val result = LawsOfNature.valueAt(LivingCell(1, 1), new World((2, 2), 1, seed = Some(seed)))
 
@@ -31,7 +31,7 @@ class LawOfNatureSpec extends FlatSpecLike with Matchers {
   }
 
   "A living Cell" should "continue living" in {
-    val seed = Array(LivingCell(0, 0), LivingCell(1, 0))
+    val seed = Seq(LivingCell(0, 0), LivingCell(1, 0))
 
     val result = LawsOfNature.valueAt(LivingCell(1, 1), new World((1, 1), 1, seed = Some(seed)))
 
@@ -44,7 +44,7 @@ class LawOfNatureSpec extends FlatSpecLike with Matchers {
   }
 
   "Out of nothing" should "be giving birth to a new cell" in {
-    val seed = Array(LivingCell(0, 0), LivingCell(1, 0), LivingCell(0, 1))
+    val seed = Seq(LivingCell(0, 0), LivingCell(1, 0), LivingCell(0, 1))
 
     val result = LawsOfNature.valueAt(Nothing(1, 1), new World((1, 1), 1, seed = Some(seed)))
 
