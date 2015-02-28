@@ -20,8 +20,6 @@ object Universe {
     }
   }
 
-  val test: Locatable = LivingCell(1, 1)
-
   case class LivingCell(x: X, y: Y, age: Int = 0) extends Locatable
 
   case class Nothing(x: X, y: Y) extends Locatable
