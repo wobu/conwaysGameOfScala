@@ -12,8 +12,8 @@ class Grid(canvas: html.Canvas, context: dom.CanvasRenderingContext2D) {
   val CellSpacing = 1
   val CellSize: (X, Y) = (10, 10)
 
-  val lines: Int = canvas.height / (CellSize._2 + CellSpacing)
-  val columns: Int = canvas.width / (CellSize._1 + CellSpacing)
+  def lines: Int = canvas.height / (CellSize._2 + CellSpacing)
+  def columns: Int = canvas.width / (CellSize._1 + CellSpacing)
 
   def draw(population: Seq[LivingCell]): Unit = {
     context.fillStyle = Color.White.toString()

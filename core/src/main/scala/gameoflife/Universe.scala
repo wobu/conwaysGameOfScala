@@ -11,8 +11,8 @@ object Universe {
     def y: Y
 
     def neighbours(world: World): Seq[Locatable] = {
-      val yNeighbourBoundary = Math.max(0, y - 1) to Math.min(y + 1, world.dimension._2)
-      val xNeighbourBoundary = Math.max(0, x - 1) to Math.min(x + 1, world.dimension._1)
+      val yNeighbourBoundary = Math.max(0, y - 1) to Math.min(y + 1, world.dimension()._2)
+      val xNeighbourBoundary = Math.max(0, x - 1) to Math.min(x + 1, world.dimension()._1)
 
       world.population.filterNot(_ == this).filter { cell =>
         yNeighbourBoundary.contains(cell.y) && xNeighbourBoundary.contains(cell.x)
@@ -24,7 +24,7 @@ object Universe {
 
   case class Nothing(x: X, y: Y) extends Locatable
 
-  class World(val dimension: (X, Y), lifetime: Int, seed: Option[Seq[LivingCell]] = None) {
+  class World(val dimension: () => (X, Y), lifetime: Int, seed: Option[Seq[LivingCell]] = None) {
     var age: Int = 0
     var population: Seq[LivingCell] = seed.getOrElse(Seq.empty[LivingCell])
 
@@ -40,7 +40,7 @@ object Universe {
       }.map(_.asInstanceOf[LivingCell])
     }
 
-    def locations: Seq[(X, Y)] = for (x <- 0 to dimension._1; y <- 0 to dimension._2) yield (x, y)
+    def locations: Seq[(X, Y)] = for (x <- 0 to dimension()._1; y <- 0 to dimension()._2) yield (x, y)
 
     def nothingness: Seq[Nothing] = locations.filterNot(l => population.exists(c => c.x == l._1 && c.y == l._2)).map(n => Nothing(n._1, n._2))
   }
