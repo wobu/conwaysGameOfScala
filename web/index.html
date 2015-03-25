@@ -31,7 +31,17 @@
 <nav class="navbar navbar-default navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
-            <a class="navbar-brand" href="#">Conway's game of scala</a>
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Conway's Game of Scala</a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+            <button type="button" class="btn btn-default navbar-btn btn-success">Start/Stop</button>
+            <button type="button" class="btn btn-default navbar-btn btn-danger">Reset</button>
         </div>
     </div>
 </nav>
