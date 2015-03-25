@@ -14,8 +14,8 @@ object ConwaysGameOfLifeApp extends JSApp {
     val context = canvas.getContext("2d").asInstanceOf[dom.CanvasRenderingContext2D]
 
     def resizeCanvas(): Unit = {
-      canvas.width = dom.window.innerWidth
-      canvas.height = dom.window.innerHeight
+      canvas.width = canvas.parentElement.clientWidth
+      canvas.height = canvas.parentElement.clientHeight
     }
 
     resizeCanvas()
