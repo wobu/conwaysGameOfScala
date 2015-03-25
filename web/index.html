@@ -40,8 +40,15 @@
             <a class="navbar-brand" href="#">Conway's Game of Scala</a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
-            <button type="button" class="btn btn-default navbar-btn btn-success">Start/Stop</button>
-            <button type="button" class="btn btn-default navbar-btn btn-danger">Reset</button>
+            <div class="btn-group" data-toggle="buttons">
+                <label class="btn navbar-btn btn-success">
+                    <input id="runButton" type="radio" name="options" autocomplete="off" checked> Run
+                </label>
+                <label class="btn navbar-btn btn-warning active">
+                    <input id="stopButton" type="radio" name="options" autocomplete="off" checked> Stop
+                </label>
+            </div>
+            <button id="resetButton" type="button" class="btn btn-default navbar-btn btn-danger">Reset</button>
         </div>
     </div>
 </nav>
