@@ -20,7 +20,7 @@ object Universe {
 
   case class Nothing(x: X, y: Y) extends Locatable
 
-  class World(val dimension: () => (X, Y), lifetime: Int, seed: Option[Seq[LivingCell]] = None) {
+  class World(val dimension: () => (X, Y), seed: Option[Seq[LivingCell]] = None) {
     var age: Int = 0
     var population: Seq[LivingCell] = seed.getOrElse(Seq.empty[LivingCell])
 

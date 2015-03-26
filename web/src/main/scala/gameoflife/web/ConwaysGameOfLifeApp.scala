@@ -70,7 +70,7 @@ object ConwaysGameOfLifeApp extends JSApp {
 
     def evolution() = {
       world = world match {
-        case None => Some(new World(() => (grid.columns, grid.lines), 10, seed = Some(Seq(LivingCell(0, 1), LivingCell(1, 1), LivingCell(2, 1)))))
+        case None => Some(new World(() => (grid.columns, grid.lines), seed = Some(Seq(LivingCell(0, 1), LivingCell(1, 1), LivingCell(2, 1)))))
         case _ => world
       }
 
