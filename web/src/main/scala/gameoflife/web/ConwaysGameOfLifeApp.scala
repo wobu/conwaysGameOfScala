@@ -6,8 +6,16 @@ import org.scalajs.dom
 import org.scalajs.dom.{Event, UIEvent, html}
 
 import scala.scalajs.js.JSApp
+import scala.util.control.NonFatal
 
 object ConwaysGameOfLifeApp extends JSApp {
+
+  case class Settings(canvasHeight: Int = 250)
+
+  object Settings {
+    val canvasHeight = dom.document.getElementById("canvasHeight").asInstanceOf[html.Input]
+    val applySettings = dom.document.getElementById("applySettings").asInstanceOf[html.Button]
+  }
 
   object ControlUnits {
     val run = dom.document.getElementById("runButton").asInstanceOf[html.Input]
@@ -17,14 +25,17 @@ object ConwaysGameOfLifeApp extends JSApp {
 
   trait Renderer {
     def world: Option[World]
+    def settings: Settings
 
     private[this] val canvas = dom.document.getElementById("canvas").asInstanceOf[html.Canvas]
     private[this] val context = canvas.getContext("2d").asInstanceOf[dom.CanvasRenderingContext2D]
     private[this] val statusText = dom.document.getElementById("statusText").asInstanceOf[html.Paragraph]
 
+    Settings.canvasHeight.value = settings.canvasHeight.toString
+
     private[this] def resize(): Unit = {
       canvas.width = canvas.parentElement.clientWidth
-      canvas.height = canvas.parentElement.clientHeight
+      canvas.height = settings.canvasHeight
     }
 
     dom.window.onresize = (e: UIEvent) => {
@@ -36,6 +47,8 @@ object ConwaysGameOfLifeApp extends JSApp {
     val grid = new Grid(canvas, context)
 
     private[this] def render() = {
+      resize()
+
       world match {
         case None =>
           grid.draw(Seq.empty)
@@ -52,11 +65,14 @@ object ConwaysGameOfLifeApp extends JSApp {
   def main(): Unit = {
     var world: Option[World] = None
     var evolutionIntervalHandle: Option[Int] = None
+    var settings = Settings()
 
     def worldLocal = world
+    def settingsLocal = settings
 
     val renderer = new Renderer {
       def world = worldLocal
+      def settings = settingsLocal
     }
 
     import renderer._
@@ -72,6 +88,15 @@ object ConwaysGameOfLifeApp extends JSApp {
 
     ControlUnits.reset.onclick = (e: UIEvent) => {
       world = None
+    }
+
+    Settings.applySettings.onclick = (e: UIEvent) => {
+      try {
+        val canvasHeight = Settings.canvasHeight.value.toInt
+        settings = settings.copy(canvasHeight = canvasHeight)
+      } catch {
+        case NonFatal(_) =>
+      }
     }
 
     def evolution() = {

@@ -40,16 +40,41 @@
             <a class="navbar-brand" href="#">Conway's Game of Scala</a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
-            <div class="btn-group" data-toggle="buttons">
-                <label class="btn navbar-btn btn-success">
-                    <input id="runButton" type="radio" name="options" autocomplete="off" checked> Run
-                </label>
-                <label class="btn navbar-btn btn-warning active">
-                    <input id="stopButton" type="radio" name="options" autocomplete="off" checked> Stop
-                </label>
+            <ul class="nav navbar-nav">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Settings <span class="caret"></span></a>
+                    <div class="dropdown-menu" style="padding: 15px;" role="menu">
+
+                        <form>
+                            <div class="form-group">
+                                <label for="canvasHeight">Canvas height</label>
+                                <div class="input-group">
+                                    <input id="canvasHeight" type="text" class="form-control">
+                                    <div class="input-group-addon">px</div>
+                                </div>
+                            </div>
+                            <button id="applySettings" type="button" class="btn btn-primary btn-block">Apply</button>
+                        </form>
+                    </div>
+                </li>
+            </ul>
+
+            <div class="nav navbar-nav">
+                <div class="btn-group" data-toggle="buttons">
+                    <label class="btn navbar-btn btn-success">
+                        <input id="runButton" type="radio" name="options" autocomplete="off" checked> Run
+                    </label>
+                    <label class="btn navbar-btn btn-warning active">
+                        <input id="stopButton" type="radio" name="options" autocomplete="off" checked> Stop
+                    </label>
+                </div>
+                <button id="resetButton" type="button" class="btn navbar-btn btn-danger">Reset</button>
             </div>
-            <button id="resetButton" type="button" class="btn btn-default navbar-btn btn-danger">Reset</button>
-            <p id="statusText" class="navbar-text navbar-right"></p>
+
+            <ul class="nav navbar-nav navbar-right">
+                <li><p id="statusText" class="navbar-text"></p></li>
+            </ul>
+
         </div>
     </div>
 </nav>
