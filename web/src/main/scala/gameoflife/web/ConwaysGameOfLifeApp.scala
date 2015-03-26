@@ -1,5 +1,6 @@
 package gameoflife.web
 
+import gameoflife.RandomLifeGenerator
 import gameoflife.Universe._
 import org.scalajs.dom
 import org.scalajs.dom.{Event, UIEvent, html}
@@ -75,7 +76,7 @@ object ConwaysGameOfLifeApp extends JSApp {
 
     def evolution() = {
       world = world match {
-        case None => Some(new World(() => (grid.columns, grid.lines), seed = Some(Seq(LivingCell(0, 1), LivingCell(1, 1), LivingCell(2, 1)))))
+        case None => Some(new World(() => (grid.columns, grid.lines), seed = Some(RandomLifeGenerator(grid.columns, grid.lines))))
         case _ => world
       }
 
