@@ -19,6 +19,7 @@ object ConwaysGameOfLifeApp extends JSApp {
 
     private[this] val canvas = dom.document.getElementById("canvas").asInstanceOf[html.Canvas]
     private[this] val context = canvas.getContext("2d").asInstanceOf[dom.CanvasRenderingContext2D]
+    private[this] val statusText = dom.document.getElementById("statusText").asInstanceOf[html.Paragraph]
 
     private[this] def resize(): Unit = {
       canvas.width = canvas.parentElement.clientWidth
@@ -35,8 +36,12 @@ object ConwaysGameOfLifeApp extends JSApp {
 
     private[this] def render() = {
       world match {
-        case None => grid.draw(Seq.empty)
-        case Some(w) => grid.draw(w.population)
+        case None =>
+          grid.draw(Seq.empty)
+          statusText.textContent = ""
+        case Some(w) =>
+          grid.draw(w.population)
+          statusText.textContent = s"Age: ${w.age}"
       }
     }
 
