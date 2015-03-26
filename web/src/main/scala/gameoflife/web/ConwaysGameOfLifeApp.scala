@@ -1,5 +1,6 @@
 package gameoflife.web
 
+import gameoflife.Universe._
 import org.scalajs.dom
 import org.scalajs.dom.{Event, UIEvent, html}
 
@@ -7,54 +8,73 @@ import scala.scalajs.js.JSApp
 
 object ConwaysGameOfLifeApp extends JSApp {
 
-  import gameoflife.Universe._
+  object ControlUnits {
+    val run = dom.document.getElementById("runButton").asInstanceOf[html.Input]
+    val stop = dom.document.getElementById("stopButton").asInstanceOf[html.Input]
+    val reset = dom.document.getElementById("resetButton").asInstanceOf[html.Button]
+  }
 
-  def main(): Unit = {
-    val canvas = dom.document.getElementById("canvas").asInstanceOf[html.Canvas]
-    val context = canvas.getContext("2d").asInstanceOf[dom.CanvasRenderingContext2D]
-    val runButton = dom.document.getElementById("runButton").asInstanceOf[html.Input]
-    val stopButton = dom.document.getElementById("stopButton").asInstanceOf[html.Input]
-    val resetButton = dom.document.getElementById("resetButton").asInstanceOf[html.Button]
+  trait Renderer {
+    def world: Option[World]
 
-    def resizeCanvas(): Unit = {
+    private[this] val canvas = dom.document.getElementById("canvas").asInstanceOf[html.Canvas]
+    private[this] val context = canvas.getContext("2d").asInstanceOf[dom.CanvasRenderingContext2D]
+
+    private[this] def resize(): Unit = {
       canvas.width = canvas.parentElement.clientWidth
       canvas.height = canvas.parentElement.clientHeight
     }
 
-    resizeCanvas()
+    dom.window.onresize = (e: UIEvent) => {
+      resize()
+    }
+
+    resize()
 
     val grid = new Grid(canvas, context)
+
+    private[this] def render() = {
+      world match {
+        case None => grid.draw(Seq.empty)
+        case Some(w) => grid.draw(w.population)
+      }
+    }
+
+    dom.setInterval(render _, 100)
+  }
+
+  def main(): Unit = {
     var world: Option[World] = None
-    var interval: Option[Int] = None
+    var evolutionIntervalHandle: Option[Int] = None
 
-    runButton.onchange = (e: Event) => {
-      interval = Some(dom.setInterval(run _, 400))
+    def worldLocal = world
+
+    val renderer = new Renderer {
+      def world = worldLocal
     }
 
-    stopButton.onchange = (e: Event) => {
-      interval.foreach(dom.window.clearInterval)
-      interval = None
+    import renderer._
+
+    ControlUnits.run.onchange = (e: Event) => {
+      evolutionIntervalHandle = Some(dom.setInterval(evolution _, 400))
     }
 
-    resetButton.onclick = (e: UIEvent) => {
+    ControlUnits.stop.onchange = (e: Event) => {
+      evolutionIntervalHandle.foreach(dom.window.clearInterval)
+      evolutionIntervalHandle = None
+    }
+
+    ControlUnits.reset.onclick = (e: UIEvent) => {
       world = None
-      grid.draw(Seq.empty)
     }
 
-    dom.window.onresize = (e: UIEvent) => {
-      resizeCanvas()
-    }
-
-    def run() = {
+    def evolution() = {
       world = world match {
         case None => Some(new World(() => (grid.columns, grid.lines), 10, seed = Some(Seq(LivingCell(0, 1), LivingCell(1, 1), LivingCell(2, 1)))))
         case _ => world
       }
 
       world.foreach(_.evolve())
-      world.foreach(w => grid.draw(w.population))
     }
-
-    grid.draw(Seq.empty)
   }
 }

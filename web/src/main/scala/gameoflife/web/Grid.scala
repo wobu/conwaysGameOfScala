@@ -5,13 +5,7 @@ import org.scalajs.dom
 import org.scalajs.dom.ext.Color
 import org.scalajs.dom.html
 
-class Grid(canvas: html.Canvas, context: dom.CanvasRenderingContext2D) {
-  type X = Int
-  type Y = Int
-
-  val CellSpacing = 1
-  val CellSize: (X, Y) = (10, 10)
-
+class Grid(canvas: html.Canvas, context: dom.CanvasRenderingContext2D, CellSpacing: Int = 1, CellSize: (X, Y) = (10, 10)) {
   def lines: Int = canvas.height / (CellSize._2 + CellSpacing)
   def columns: Int = canvas.width / (CellSize._1 + CellSpacing)
 

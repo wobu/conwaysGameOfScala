@@ -1,10 +1,6 @@
 package gameoflife
 
 object Universe {
-
-  type X = Int
-  type Y = Int
-
   trait Locatable {
     def x: X
 
