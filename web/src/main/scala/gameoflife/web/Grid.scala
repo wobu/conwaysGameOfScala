@@ -9,9 +9,11 @@ class Grid(canvas: html.Canvas, context: dom.CanvasRenderingContext2D, CellSpaci
   def lines: Int = canvas.height / (CellSize._2 + CellSpacing)
   def columns: Int = canvas.width / (CellSize._1 + CellSpacing)
 
+  def dimensions: (X, Y) = (columns - 1) -> (lines - 1)
+
   def draw(population: Seq[LivingCell]): Unit = {
     context.fillStyle = Color.White.toString()
-    context.fillRect(0, 0, canvas.width, canvas.height);
+    context.fillRect(0, 0, canvas.width, canvas.height)
 
     context.fillStyle = Color(224, 224, 224).toString()
 

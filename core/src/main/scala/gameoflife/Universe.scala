@@ -36,7 +36,7 @@ object Universe {
       }.map(_.asInstanceOf[LivingCell])
     }
 
-    def locations: Seq[(X, Y)] = for (x <- 0 until dimension()._1; y <- 0 until dimension()._2) yield (x, y)
+    def locations: Seq[(X, Y)] = for (x <- 0 to dimension()._1; y <- 0 to dimension()._2) yield (x, y)
 
     def nothingness: Seq[Nothing] = locations.filterNot(l => population.exists(c => c.x == l._1 && c.y == l._2)).map(n => Nothing(n._1, n._2))
   }

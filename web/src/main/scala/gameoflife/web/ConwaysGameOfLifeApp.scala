@@ -101,7 +101,7 @@ object ConwaysGameOfLifeApp extends JSApp {
 
     def evolution() = {
       world = world match {
-        case None => Some(new World(() => (grid.columns, grid.lines), seed = Some(RandomLifeGenerator(grid.columns, grid.lines))))
+        case None => Some(new World(() => grid.dimensions, seed = Some(RandomLifeGenerator(grid.dimensions))))
         case _ => world
       }
 
