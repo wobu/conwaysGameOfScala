@@ -5,10 +5,11 @@ import gameoflife.Universe._
 import org.scalajs.dom
 import org.scalajs.dom.{Event, UIEvent, html}
 
-import scala.scalajs.js.JSApp
+import scala.scalajs.js
+import scala.scalajs.js.timers.SetIntervalHandle
 import scala.util.control.NonFatal
 
-object ConwaysGameOfLifeApp extends JSApp {
+object ConwaysGameOfLifeApp {
 
   case class Settings(canvasHeight: Int = 250)
 
@@ -59,12 +60,14 @@ object ConwaysGameOfLifeApp extends JSApp {
       }
     }
 
-    dom.setInterval(render _, 100)
+    js.timers.setInterval(100) {
+      render()
+    }
   }
 
-  def main(): Unit = {
+  def main(args: Array[String]): Unit = {
     var world: Option[World] = None
-    var evolutionIntervalHandle: Option[Int] = None
+    var evolutionIntervalHandle: Option[SetIntervalHandle] = None
     var settings = Settings()
 
     def worldLocal = world
@@ -78,11 +81,11 @@ object ConwaysGameOfLifeApp extends JSApp {
     import renderer._
 
     ControlUnits.run.onchange = (e: Event) => {
-      evolutionIntervalHandle = Some(dom.setInterval(evolution _, 400))
+      evolutionIntervalHandle = Some(js.timers.setInterval(400) { evolution() })
     }
 
     ControlUnits.stop.onchange = (e: Event) => {
-      evolutionIntervalHandle.foreach(dom.window.clearInterval)
+      evolutionIntervalHandle.foreach(js.timers.clearInterval)
       evolutionIntervalHandle = None
     }
 
